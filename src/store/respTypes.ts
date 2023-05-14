@@ -4,4 +4,5 @@ export interface RespData<T = {}> {
     data: T;
     message?: string;
     payload?: ActionPayload;
-  }
+}
+
