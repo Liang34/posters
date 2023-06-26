@@ -6,7 +6,7 @@
                     <img src='../assets/logo.png'  class="logo"/>
                     海报大师
                 </div>
-                <user-profile ></user-profile>
+                <user-profile :user="user" ></user-profile>
             </a-layout-header>
             <a-layout-conternt class="home-layout">
                 <router-view></router-view>
@@ -20,15 +20,25 @@
 
 <script lang="ts">
 
-import { defineComponent } from 'vue';
-import UserProfile from '@/components/UserProfile.vue';
-
+import { computed, defineComponent } from 'vue'
+import { useStore } from 'vuex'
+import { GlobalDataProps } from '../store/index'
+import UserProfile from '../components/UserProfile.vue'
 export default defineComponent({
-    name: 'index',
-    components: {
-        UserProfile
+  name: 'Index',
+  components: {
+    UserProfile
+  },
+  setup () {
+    const store = useStore<GlobalDataProps>()
+    const user = computed(() => store.state.user)
+    console.log(user)
+    return {
+      user
     }
-});
+  }
+})
+
 </script>
 
 <style scoped>

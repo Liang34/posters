@@ -1,8 +1,9 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import { Module, ActionContext } from 'vuex'
+import axios from 'axios'
+import { Module } from 'vuex'
 import { GlobalDataProps } from './index' 
 import { RespData } from './respTypes'
-import { login } from '@/service/user'
+import { getUserInfo, login } from '@/service/user'
+import request from '@/service/fetch';
 
 // 用户信息
 export interface UserDataProps {
@@ -37,7 +38,7 @@ const user: Module<UserProps, GlobalDataProps> = {
       const { token } = rawData.data
       state.token = token
       localStorage.setItem('token', token)
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+      request.defaults.headers.common.Authorization = `Bearer ${token}`
     },
     fetchCurrentUser(state, rawData: RespData<UserDataProps>) {
       state.isLogin = true
@@ -56,12 +57,14 @@ const user: Module<UserProps, GlobalDataProps> = {
         commit('login', rawData);
       })
     },
-    fetchCurrentUser: () => {
-        return {}
+    fetchCurrentUser: ({ commit }) => {
+        return getUserInfo().then(rawData => {
+            commit('fetchCurrentUser', rawData);
+        })
     },
-    // fetchCurrentUser: actionWrapper('/users/getUserInfo', 'fetchCurrentUser'),
     loginAndFetch({ dispatch }, loginData) {
       return dispatch('login', loginData).then(() => {
+        console.log('hello')
         return dispatch('fetchCurrentUser')
       })
     }   

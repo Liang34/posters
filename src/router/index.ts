@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../views/index.vue';
 import Home from '../views/Home.vue';
+import Works from '../views/Works.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -11,6 +12,7 @@ const router = createRouter({
             component: Index,
             children: [
                 { path: '', name: 'home', component: Home, meta: { title: '欢迎来到海报大师' } },
+                { path: 'works', name: 'works', component: Works, meta: { title: '我的作品', requiredLogin: true, } }
             ]
         },
         {

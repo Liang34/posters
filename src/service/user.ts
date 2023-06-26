@@ -20,7 +20,7 @@ export function login(data: {emailAddress: string; veriCode: string }) {
 
 export function getUserInfo() {
     return request({
-        url: '/users/loginByPhoneNumber',
+        url: '/users/getUserInfo',
         method: 'get',
     })
 }
