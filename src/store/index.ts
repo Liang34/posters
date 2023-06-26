@@ -1,18 +1,22 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { createStore, ActionContext } from 'vuex';
 import user, { UserProps } from './user';
+import templates, { TemplatesProps } from './templates';
+import global, { GlobalStatus } from './global';
 
 export interface GlobalDataProps {
     user: UserProps;
-    // templates: TemplatesProps;
+    templates: TemplatesProps;
     // editor: EditorProps;
-    // global: GlobalStatus;
+    global: GlobalStatus;
   }
 
 const store = createStore({
     modules: {
-        user
+        user,
+        templates,
+        global
     }
-})
+});
 
 export default store;
