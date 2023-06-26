@@ -13,6 +13,6 @@ const store = createStore({
     modules: {
         user
     }
-})
+});
 
 export default store;
