@@ -12,8 +12,11 @@ export default defineComponent({
 });
 </script>
 
-<style>
-.app-container .global-spinner {
+<style scoped>
+.app-container  {
+  height: 100%;
+}
+.global-spinner {
   position: fixed;
   top: 10px;
   right: 50%;

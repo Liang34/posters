@@ -101,7 +101,7 @@ export default defineComponent({
       return !/^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(form.cellphone.trim()) || (counter.value < 60);
     });
     const useForm = Form.useForm;
-    const { validate, resetFields } = useForm(form, rules);
+    const { validate } = useForm(form, rules);
     const store = useStore<GlobalDataProps>();
     const router = useRouter();
     const login = () => {

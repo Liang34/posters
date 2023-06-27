@@ -64,7 +64,6 @@ const user: Module<UserProps, GlobalDataProps> = {
     },
     loginAndFetch({ dispatch }, loginData) {
       return dispatch('login', loginData).then(() => {
-        console.log('hello')
         return dispatch('fetchCurrentUser')
       })
     }   
