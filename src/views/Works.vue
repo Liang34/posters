@@ -1,5 +1,5 @@
 <template>
-    <div class="mywork-container content-container">
+    <div class="mywork-container">
       <a-row type="flex" justify="space-between" align="middle" class="poster-title" >
         <h2>我的作品和模版</h2>
       </a-row>
@@ -14,7 +14,7 @@
           <span> 还没有任何作品 </span>
         </template>
         <a-button type="primary" size="large">
-          创建你的第一个设计 🎉
+          创建你的第一个海报 🎉
         </a-button>
       </a-empty>
   
@@ -23,7 +23,7 @@
         @on-copy="onCopy" :loading="isLoading"
       >
       </works-list>
-      <a-row type="flex" justify="space-between" align="middle">
+      <a-row type="flex" align="middle" justify="center" class="pagination">
         <ul class="ant-pagination">
           <li class="ant-pagination-prev" :class="{'ant-pagination-disabled': isFirstPage}">
             <a class="ant-pagination-item-link" @click.prevent="loadPrevPage">
@@ -40,9 +40,6 @@
           </li>
   
         </ul>
-        <h2>{{pageIndex}}</h2>
-        <a-button type="primary" size="large" @click="loadPrevPage" v-if="!isFirstPage" :loading="isLoading">上一页</a-button>
-        <a-button type="primary" size="large" @click="loadMorePage" v-if="!isLastPage" :loading="isLoading">下一页</a-button>
       </a-row>
     </div>
   </template>
@@ -68,7 +65,7 @@
       const isTemplate = ref(0)
       const searchParams =  computed(() => ({ pageIndex: 0, pageSize: 4, isTemplate: isTemplate.value }))
       onMounted(() => {
-        store.dispatch('fetchWorks',  { searchParams: searchParams.value })
+        store.dispatch('fetchWorks',  { ...searchParams.value })
       })
       const { isLastPage, loadMorePage, isFirstPage, 
       loadPrevPage, pageIndex, requestParams, goToPage, totalPage } = useLoadMore('fetchWorks', total, searchParams.value)
@@ -80,12 +77,12 @@
           router.push(`/editor/${data.id}`)
         })
       }
-      const changeCategory = (key: any) => {
+      const changeCategory = (key: number) => {
         isTemplate.value = key
         pageIndex.value = 0
         requestParams.isTemplate = key
         nextTick(() => {
-          store.dispatch('fetchWorks',  { searchParams: searchParams.value })
+          store.dispatch('fetchWorks',  { ...searchParams.value })
         })
       }
   
@@ -108,9 +105,9 @@
   })
   </script>
   
-  <style>
-   .mywork-container .ant-input-search {
-    width: 30%;
+  <style scoped>
+   .mywork-container {
+    padding: 30px 150px;
   }
   .searchResult {
     display: flex;
@@ -123,6 +120,9 @@
     position: absolute;
     left: 50%;
     top: 50%;
+  }
+  .pagination {
+    margin-top: 10px;
   }
   </style>
   

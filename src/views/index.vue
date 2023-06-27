@@ -1,6 +1,6 @@
 <template>
     <div class="homepage-container">
-        <a-layout :style="{ background: '#fff' }">
+        <a-layout :style="{ background: '#fff', height: '100%' }">
             <a-layout-header class="header">
                 <div class="page-title">
                     <img src='../assets/logo.png'  class="logo"/>
@@ -32,7 +32,6 @@ export default defineComponent({
   setup () {
     const store = useStore<GlobalDataProps>()
     const user = computed(() => store.state.user)
-    console.log(user)
     return {
       user
     }
@@ -42,6 +41,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.homepage-container {
+  height: 100%;
+}
+.home-layout {
+  flex: 1;
+  padding: 0 50px;
+}
 .header {
   display: flex;
   justify-content: space-between;

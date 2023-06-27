@@ -3,6 +3,7 @@
  */
 import { Module } from 'vuex'
 import { GlobalDataProps, } from './index'
+import { getTemplate } from '@/service/template';
 // import { RespListData, RespData } from './respTypes'
 // import { PageData } from './editor'
 // any --- pageData
@@ -40,6 +41,12 @@ const templates: Module<TemplatesProps, GlobalDataProps> = {
   actions: {
     // fetchTemplates: actionWrapper('/templates', 'fetchTemplates'),
     // fetchWorks: actionWrapper('/works', 'fetchWorks'),
+    fetchWorks: ({ commit }, payload) => {
+      return getTemplate(payload).then(rawData => {
+        console.log(rawData, 'rawData')
+        commit('fetchWorks', rawData)
+      })
+    }
     // fetchTemplate: actionWrapper('/templates/:id', 'fetchTemplate')
   },
   getters: {

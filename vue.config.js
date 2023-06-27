@@ -26,22 +26,22 @@ module.exports = {
             }
           }
         }
-      }
+      },
     // 生产环境要使用 OSS 地址
     // 其他环境都使用绝对路径
     //   publicPath: (isProduction && !isStaging) ? 'https://oss.imooc-lego.com/editor' : '/',
-    //   css: {
-    //     loaderOptions: {
-    //       less: {
-    //         lessOptions: {
-    //           modifyVars: {
-    //             'primary-color': '#3E7FFF',
-    //           },
-    //           javascriptEnabled: true
-    //         }
-    //       }
-    //     }
-    //   },
+      css: {
+        loaderOptions: {
+          less: {
+            lessOptions: {
+              modifyVars: {
+                'primary-color': '#3E7FFF',
+              },
+              javascriptEnabled: true
+            }
+          }
+        }
+      },
     //   configureWebpack: config => {
     //     config.plugins.push(
     //       new webpack.IgnorePlugin({
