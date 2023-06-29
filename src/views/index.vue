@@ -40,7 +40,7 @@ export default defineComponent({
 
 </script>
 
-<style scoped>
+<style>
 .homepage-container {
   height: 100%;
 }
