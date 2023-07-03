@@ -83,11 +83,11 @@ import { defineComponent } from 'vue'
 import { FileImageOutlined, LoadingOutlined, FieldStringOutlined, BuildOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 // import Uploader from './Uploader.vue'
-import { textDefaultProps } from '../defaultProps'
+import { componentsDefaultProps } from '../defaultProps'
 import { commonUploadCheck, imageDimensions, UploadImgProps } from '../helper'
-// const textDefaultProps = componentsDefaultProps['l-text'].props
-// const imageDefaultProps = componentsDefaultProps['l-image'].props
-// const shapeDefaultProps = componentsDefaultProps['l-shape'].props
+const textDefaultProps = componentsDefaultProps['p-text'].props
+const imageDefaultProps = componentsDefaultProps['p-image'].props
+const shapeDefaultProps = componentsDefaultProps['p-shape'].props
 interface CreateComponentType {
   name: string;
   text?: string;
@@ -97,7 +97,7 @@ interface CreateComponentType {
 const generateResetCss = (name: string) => {
   return {
     position: 'static',
-    ...((name !== 'l-shape') && { height: '' })
+    ...((name !== 'p-shape') && { height: '' })
   }
 }
 // the component name list
@@ -188,71 +188,71 @@ const imgSourceList = [
   'http://static.imooc-lego.com/upload-files/text3-086652.png',
   'http://static.imooc-lego.com/upload-files/text4-145592.png'
 ]
-// const imageList: CreateComponentType[] = imgSourceList.map((url) => {
-//   return {
-//     name: 'l-image',
-//     props: {
-//       ...imageDefaultProps,
-//       imageSrc: url,
-//       width: '150px'
-//     }
-//   }
-// })
-// const shapePropsList = [
-//   {
-//     backgroundColor: '#efefef',
-//     borderWidth: '1px',
-//     borderStyle: 'solid',
-//     borderColor: '#ccc',
-//     width: '100px',
-//     height: '50px'
-//   },
-//   {
-//     backgroundColor: '#efefef',
-//     borderWidth: '1px',
-//     borderStyle: 'solid',
-//     borderColor: '#ccc',
-//     borderRadius: '100px',
-//     width: '100px',
-//     height: '100px'
-//   },
-//   {
-//     backgroundColor: '#efefef',
-//     borderWidth: '1px',
-//     borderStyle: 'solid',
-//     borderColor: '#ccc',
-//     width: '100px',
-//     height: '100px'
-//   },
-//   {
-//     backgroundColor: '#36cfc9',
-//     width: '100px',
-//     height: '50px'
-//   },
-//   {
-//     backgroundColor: '#40a9ff',
-//     borderRadius: '100px',
-//     width: '100px',
-//     height: '100px'
-//   },
-//   {
-//     backgroundColor: '#9254de',
-//     borderWidth: '5px',
-//     borderStyle: 'solid',
-//     borderColor: '#ccc',
-//     width: '100px',
-//     height: '100px'
-//   }
-// ]
-// const shapeList: CreateComponentType[] = shapePropsList.map((prop) => {
-//   return {
-//     name: 'l-shape',
-//     props: {
-//       ...shapeDefaultProps,
-//       ...(prop as any)
-//     }
-//   }
-// })
+const imageList: CreateComponentType[] = imgSourceList.map((url) => {
+  return {
+    name: 'p-image',
+    props: {
+      ...imageDefaultProps,
+      imageSrc: url,
+      width: '150px'
+    }
+  }
+})
+const shapePropsList = [
+  {
+    backgroundColor: '#efefef',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#ccc',
+    width: '100px',
+    height: '50px'
+  },
+  {
+    backgroundColor: '#efefef',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#ccc',
+    borderRadius: '100px',
+    width: '100px',
+    height: '100px'
+  },
+  {
+    backgroundColor: '#efefef',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#ccc',
+    width: '100px',
+    height: '100px'
+  },
+  {
+    backgroundColor: '#36cfc9',
+    width: '100px',
+    height: '50px'
+  },
+  {
+    backgroundColor: '#40a9ff',
+    borderRadius: '100px',
+    width: '100px',
+    height: '100px'
+  },
+  {
+    backgroundColor: '#9254de',
+    borderWidth: '5px',
+    borderStyle: 'solid',
+    borderColor: '#ccc',
+    width: '100px',
+    height: '100px'
+  }
+]
+const shapeList: CreateComponentType[] = shapePropsList.map((prop) => {
+  return {
+    name: 'p-shape',
+    props: {
+      ...shapeDefaultProps,
+      ...(prop as any)
+    }
+  }
+})
 
 export default defineComponent({
   components: {
@@ -272,9 +272,9 @@ export default defineComponent({
     }
     const handleFileUploaded = (uploadedData: UploadImgProps) => {
       const data = {
-        name: 'l-image',
+        name: 'p-image',
         props: {
-          // ...imageDefaultProps
+          ...imageDefaultProps
         }
       } as CreateComponentType
       message.success('上传成功')
@@ -287,8 +287,8 @@ export default defineComponent({
     }
     return {
       textList,
-      // imageList,
-      // shapeList,
+      imageList,
+      shapeList,
       onItemClick,
       commonUploadCheck,
       handleFileUploaded,
@@ -355,5 +355,11 @@ export default defineComponent({
 }
 .create-component-list .ant-tabs-tab {
   margin: 0;
+}
+.ant-tabs-tab {
+  flex: 1;
+}
+.ant-tabs-nav-list {
+  width: 100%;
 }
 </style>

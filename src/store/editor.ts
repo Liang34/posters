@@ -6,12 +6,12 @@ import { RespData } from './respTypes'
 import request from '@/service/fetch';
 import { getWork } from '@/service/editor'
 import { RespWorkData, ListData, RespListData } from './respTypes'
-import { AllComponentProps } from '@/defaultProps';
+
 export const testComponents: ComponentData[] = [
   { id: '1', name: 'p-text', layerName:'图层1', props: { text: 'hello', fontSize: '20px', color: '#000000', 'lineHeight': '1', textAlign: 'left', fontFamily: '', width: '100px', height: '100px', backgroundColor: '#efefef', left: '100px', top: '150px' }},
   { id: 'uuidv4()', name: 'p-text', layerName:'图层2', props: { text: 'hello2', fontSize: '10px', fontWeight: 'bold', 'lineHeight': '2', textAlign: 'left', fontFamily: '' }},
   { id: 'u1uidv4()', name: 'p-text', layerName:'图层3', props: { text: 'hello3', fontSize: '15px', actionType: 'url', url: 'https://www.baidu.com', 'lineHeight': '3', textAlign: 'left', fontFamily: '' }},
-  { id: 'uuiddddv4()', name: 'l-image', layerName:'图层4', props: {  src: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg', width: '100px' }},
+  { id: 'uuiddddv4()', name: 'p-image', layerName:'图层4', props: {  src: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg', width: '100px' }},
 ]
 export interface ComponentData {
   // 这个元素的 属性，属性请详见下面
@@ -19,7 +19,7 @@ export interface ComponentData {
   // id，uuid v4 生成
   id: string;
   // 业务组件库名称 l-text，l-image 等等 
-  name: 'p-text' | 'l-image' | 'l-shape';
+  name: 'p-text' | 'p-image' | 'p-shape';
   // 图层是否隐藏
   isHidden?: boolean;
   // 图层是否锁定
@@ -28,7 +28,7 @@ export interface ComponentData {
   layerName?: string;
 }
 export interface UpdateComponentData {
-  key: keyof AllComponentProps | Array<keyof AllComponentProps>;
+  key: string;
   value: string | string[];
   id: string;
   isRoot?: boolean;

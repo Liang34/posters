@@ -36,12 +36,7 @@
     <a-layout>
       <a-layout-sider width="300" style="background: #fff">
         <div class="sidebar-container">
-          组件列表
-          <components-list
-            :list="defaultTextTemplates"
-            @onItemClick="addItem"
-          />
-          <img id="test-image" :style="{ width: '300px' }" />
+          <components-list @on-item-click="addItem"></components-list>
         </div>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
@@ -138,17 +133,15 @@ import { defineComponent, computed, onMounted, nextTick } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import InlineEdit from "@/components/InlineEdit.vue";
-import defaultTextTemplates from "../defaultTemplates";
 import componentsList from "@/components/ComponentsList.vue";
-import PText from "@/components/P-TEXT.vue";
 import EditWrapper from "@/components/EditWrapper.vue";
 import { pickBy } from "lodash-es";
+import { ComponentData } from "@/store/editor";
 
 export default defineComponent({
   components: {
     InlineEdit,
     componentsList,
-    PText,
     EditWrapper,
   },
   setup() {
@@ -173,13 +166,13 @@ export default defineComponent({
     const components = computed(() => store.state.editor.components);
     // 设置当前的拖拽对象
     const setActive = (id: string, notSwitchPanel = false) => {
-      store.commit('setActive', id)
+      store.commit("setActive", id);
       if (!notSwitchPanel) {
         // activePanel.value = 'component'
       }
-    }
+    };
     // 添加组件到画布中
-    const addItem = (component: unknown) => {
+    const addItem = (component: ComponentData) => {
       store.commit("addComponent", component);
     };
     // 更新组件信息
@@ -194,46 +187,66 @@ export default defineComponent({
       const valuesArr = Object.values(updatedData).map((v) => v + "px");
       store.commit("updateComponent", { key: keysArr, value: valuesArr, id });
     };
-    const currentEditing = computed(() => store.state.editor.currentElement)
-    const currentId = computed(() => store.state.editor.currentElement)
+    const currentEditing = computed(() => store.state.editor.currentElement);
+    const currentId = computed(() => store.state.editor.currentElement);
     const setEditing = (id: string) => {
-      store.commit('setEditing', id)
+      store.commit("setEditing", id);
       // activePanel.value = 'component'
       nextTick(() => {
-        const ele = document.querySelector('#item-text textarea') as HTMLTextAreaElement
+        const ele = document.querySelector(
+          "#item-text textarea"
+        ) as HTMLTextAreaElement;
         if (ele) {
-          ele.focus()
+          ele.focus();
         }
-      })
-    }
+      });
+    };
     return {
       addItem,
       userInfo,
       page,
       titleChange,
       components,
-      defaultTextTemplates,
       updatePosition,
       setActive,
       currentEditing,
       currentId,
-      setEditing
+      setEditing,
     };
   },
 });
 </script>
 
 <style>
-.editor-container .preview-container {
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.header .logo-img {
+  margin-right: 20px;
+  height: 40px;
+}
+.page-title {
+  display: flex;
+}
+.header h4 {
+  color: #ffffff;
+}
+.editor-spinner {
+  position: fixed;
+  right: 50%;
+  top: 10px;
+}
+.preview-container {
   padding: 24px;
   margin: 0;
-  min-height: 85vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
 }
-.editor-container .preview-list {
+.preview-list {
   padding: 0;
   margin: 0;
   min-width: 375px;
@@ -246,19 +259,80 @@ export default defineComponent({
   margin-top: 50px;
   max-height: 80vh;
 }
-.page-title {
-  display: flex;
+.preview-list.active {
+  border: 1px solid #1890ff;
 }
-.page-title .inline-edit span {
-  font-weight: 500;
-  margin-left: 10px;
-  font-size: 16px;
-}
-.preview-list.canvas-fix .edit-wrapper > * {
+.preview-list.canvas-fix .l-text-component,
+.preview-list.canvas-fix .l-image-component,
+.preview-list.canvas-fix .l-shape-component {
   box-shadow: none !important;
 }
 .preview-list.canvas-fix {
   position: absolute;
   max-height: none;
+}
+.sidebar-container {
+  padding: 20px;
+}
+.body-container {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+.page-settings {
+  padding: 16px;
+}
+.settings-panel .ant-tabs-top-content {
+  max-height: calc(100vh - 68px - 56px);
+  overflow-y: auto;
+}
+.final-preview {
+  position: absolute;
+  width: calc(100% - 400px);
+  height: 100%;
+  background: transparent;
+  top: 0;
+  left: 0;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.final-preview-inner {
+  width: 430px;
+  height: 870px;
+  padding: 60px 28px;
+  position: relative;
+  /* background: url('~@/assets/phone-back.png') no-repeat; */
+  background-size: cover;
+}
+.final-preview-inner .preview-title {
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  font-weight: bold;
+}
+.iframe-container {
+  width: 100%;
+  height: 706px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.iframe-placeholder {
+  /* background: url('~@/assets/loading.svg') 50% 50% no-repeat; */
+  background-size: 50px;
+}
+.settings-panel .ant-list-bordered {
+  border-radius: 0;
+}
+.settings-panel .ant-collapse {
+  border-radius: 0;
+}
+.ant-collapse-header,
+.ant-collapse-item {
+  border-radius: 0 !important;
+}
+.settings-panel .ant-tabs-tab {
+  border-radius: 0 !important;
 }
 </style>
