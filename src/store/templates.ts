@@ -43,7 +43,6 @@ const templates: Module<TemplatesProps, GlobalDataProps> = {
     // fetchWorks: actionWrapper('/works', 'fetchWorks'),
     fetchWorks: ({ commit }, payload) => {
       return getTemplate(payload).then(rawData => {
-        console.log(rawData, 'rawData')
         commit('fetchWorks', rawData)
       })
     }
