@@ -172,7 +172,7 @@ import { ComponentData } from '../store/editor'
 import { initHotKeys } from '../plugins/hotKeys'
 import showError from '../hooks/useShowError'
 import { takeScreenshotAndUpload, UploadImgProps, imageDimensions } from '../helper'
-// import { baseH5URL } from '../main'
+import { baseH5URL } from '../main'
 
 export type TabType = 'component' | 'layer' | 'page'
 export default defineComponent({
@@ -213,7 +213,7 @@ export default defineComponent({
     showError()
     const currentWorkId = route.params.id
     let timer: any
-    const previewURL = computed(() => `/p/preview/${pageState.value.id}-${pageState.value.uuid}`)
+    const previewURL = computed(() => `${baseH5URL}/p/preview/${pageState.value.id}-${pageState.value.uuid}`)
     const saveWork = (showMessage = false) => {
       isSaving.value = true
       return store.dispatch('saveWork', { id: currentWorkId }).then(() => {
