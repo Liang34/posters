@@ -46,7 +46,8 @@
           <div
             class="preview-list"
             id="canvas-area"
-            :class="{ 'canvas-fix': canvasFix }"
+            @click="setPageSetting"
+            :class="{ active: activePanel === 'page', 'canvas-fix': canvasFix }"
           >
             <div class="body-container" :style="page.props">
               <div v-for="item in components" :key="item.id">
@@ -67,36 +68,18 @@
                   />
                 </EditWrapper>
               </div>
-              <!-- <edit-wrapper
-                @setActive="setActive"
-                @update-position="updatePosition"
-                v-for="component in components"
-                :key="component.id"
-                :id="component.id"
-                :hidden="component.isHidden"
-                :props="component.props"
-                :active="component.id === (currentElement && currentElement.id)"
-              >
-                <component :is="component.name" v-bind="component.props" />
-              </edit-wrapper> -->
             </div>
           </div>
         </a-layout-content>
       </a-layout>
-      <a-layout-sider
-        width="300"
-        style="background: #fff"
-        class="settings-panel"
-      >
-        图层模块
-        <!-- <a-tabs type="card" v-model:activeKey="activePanel">
-            <a-tab-pane key="component" tab="属性设置" class="no-top-radius">
-              <div v-if="currentElement">
-              <edit-group
-                v-if="!currentElement.isLocked"
-                :props="currentElement.props"
-                @change="handleChange"
-              ></edit-group>
+      <!-- 图层 -->
+      <a-layout-sider width="300" style="background: #fff" class="settings-panel">
+        <a-tabs type="card" v-model:activeKey="activePanel">
+          <a-tab-pane key="component" tab="属性设置" class="no-top-radius">
+            <div v-if="currentElement">
+              <div v-if="!currentElement.isLocked">
+                <edit-group :props="currentElement.props"></edit-group>
+              </div>
               <div v-else>
                 <a-empty>
                   <template #description>
@@ -104,24 +87,34 @@
                   </template>
                 </a-empty>
               </div>
-              </div>
-              <pre>
-                {{currentElement && currentElement.props}}
-              </pre>
-            </a-tab-pane>
-            <a-tab-pane key="layer" tab="图层设置">
-              <layer-list
-                :list="components"
-                :selectedId="currentElement && currentElement.id"
-                @change="handleChange"
-                @select="setActive"
+            </div>
+            <div v-else>
+              <a-empty>
+                <template #description>
+                  <p>在画布中选择元素并开始编辑</p>
+                </template>
+              </a-empty>
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="layer" tab="图层设置">
+            <layer-list
+              :list="components" :selectedId="currentId"
+              @select="(id) => { setActive(id, true) }"
+              @change="handleChange"
+            >
+            </layer-list>
+          </a-tab-pane>
+          <a-tab-pane key="page" tab="页面设置">
+            <div class="page-settings">
+              <props-table
+                :props="pageState.props" mutationName="updatePage"
+                :mutationExtraData="{ level: 'props' }"
+                @updated="adjustHeightOnUpload"
               >
-              </layer-list>
-            </a-tab-pane>
-            <a-tab-pane key="page" tab="页面设置">
-              <props-table :props="page.props" @change="pageChange"></props-table>
-            </a-tab-pane>
-          </a-tabs> -->
+              </props-table>
+            </div>
+          </a-tab-pane>
+        </a-tabs>
       </a-layout-sider>
     </a-layout>
   </div>
@@ -129,7 +122,7 @@
 
 <script lang="ts">
 import { GlobalDataProps } from "@/store";
-import { defineComponent, computed, onMounted, nextTick } from "vue";
+import { defineComponent, computed, onMounted, nextTick, ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import InlineEdit from "@/components/InlineEdit.vue";
@@ -137,7 +130,7 @@ import componentsList from "@/components/ComponentsList.vue";
 import EditWrapper from "@/components/EditWrapper.vue";
 import { pickBy } from "lodash-es";
 import { ComponentData } from "@/store/editor";
-
+export type TabType = 'component' | 'layer' | 'page'
 export default defineComponent({
   components: {
     InlineEdit,
@@ -164,11 +157,12 @@ export default defineComponent({
     const page = computed(() => store.state.editor.page);
     const userInfo = computed(() => store.state.user);
     const components = computed(() => store.state.editor.components);
+    const activePanel = ref<TabType>('component')
     // 设置当前的拖拽对象
     const setActive = (id: string, notSwitchPanel = false) => {
       store.commit("setActive", id);
       if (!notSwitchPanel) {
-        // activePanel.value = 'component'
+        activePanel.value = 'component'
       }
     };
     // 添加组件到画布中
@@ -189,6 +183,7 @@ export default defineComponent({
     };
     const currentEditing = computed(() => store.state.editor.currentElement);
     const currentId = computed(() => store.state.editor.currentElement);
+    const currentElement = computed<ComponentData>(() => store.getters.getCurrentElement)
     const setEditing = (id: string) => {
       store.commit("setEditing", id);
       // activePanel.value = 'component'
@@ -202,6 +197,7 @@ export default defineComponent({
       });
     };
     return {
+      currentElement,
       addItem,
       userInfo,
       page,

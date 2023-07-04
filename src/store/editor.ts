@@ -183,6 +183,11 @@ const editor: Module<EditorProps, GlobalDataProps> = {
     updatePage: () => {
       return {}
     },
+  },
+  getters: {
+    getCurrentElement: (state) => {
+      return state.components.find((component) => component.id === state.currentElement)
+    },
   }
 };
 
