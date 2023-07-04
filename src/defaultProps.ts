@@ -54,7 +54,7 @@ export const imageDefaultProps = {
 // this contains all default props for all the components
 // useful for inserting new component into the store
 export const componentsDefaultProps: DefaultPropsType = {
-  'l-text': {
+  'p-text': {
     props: {
       text: '正文内容',
       ...textDefaultProps,
@@ -65,12 +65,12 @@ export const componentsDefaultProps: DefaultPropsType = {
       top: (500 / 2) - (36 / 2) + 'px'
     }
   },
-  'l-image': {
+  'p-image': {
     props: {
       ...imageDefaultProps
     }
   },
-  'l-shape': {
+  'p-shape': {
     props: {
       backgroundColor: '',
       ...commonDefaultProps
