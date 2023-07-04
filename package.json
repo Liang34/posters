@@ -11,6 +11,8 @@
     "ant-design-vue": "^3.2.19",
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "lodash-es": "^4.17.21",
     "poster-components": "^0.1.8",
     "uuid": "^9.0.0",

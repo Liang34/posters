@@ -1,7 +1,7 @@
 import { message } from 'ant-design-vue'
 import axios from 'axios'
-// import html2canvas from 'html2canvas'
-// import { saveAs } from 'file-saver'
+import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
 import { map } from 'lodash'
 interface CheckCondition {
   format?: string[];
@@ -81,33 +81,33 @@ export function isMobile (mobile: string) {
   return /^1[3-9]\d{9}$/.test(mobile)
 }
 
-// export const takeScreenshotAndUpload = (id: string) => {
-//   const el = document.getElementById(id) as HTMLElement
-//   return html2canvas(el,
-//     { allowTaint: false, useCORS: true, width: 375 }).then(canvas => {
-//     return new Promise<UploadImgProps>((resolve, reject) => {
-//       canvas.toBlob((data) => {
-//         if (data) {
-//           const newFile = new File([data], 'screenshot.png')
-//           const formData = new FormData()
-//           formData.append('file', newFile)
-//           axios.post('/utils/upload-img', formData, {
-//             headers: {
-//               'Content-Type': 'multipart/form-data'
-//             },
-//             timeout: 5000
-//           }).then(data => {
-//             resolve(data.data)
-//           }).catch(err => {
-//             reject(err)
-//           })
-//         } else {
-//           reject(new Error('blob data error'))
-//         }
-//       }, 'image/png')
-//     })
-//   })
-// }
+export const takeScreenshotAndUpload = (id: string) => {
+  const el = document.getElementById(id) as HTMLElement
+  return html2canvas(el,
+    { allowTaint: false, useCORS: true, width: 375 }).then(canvas => {
+    return new Promise<UploadImgProps>((resolve, reject) => {
+      canvas.toBlob((data) => {
+        if (data) {
+          const newFile = new File([data], 'screenshot.png')
+          const formData = new FormData()
+          formData.append('file', newFile)
+          axios.post('/utils/upload-img', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            timeout: 5000
+          }).then(data => {
+            resolve(data.data)
+          }).catch(err => {
+            reject(err)
+          })
+        } else {
+          reject(new Error('blob data error'))
+        }
+      }, 'image/png')
+    })
+  })
+}
 
 export const objToQueryString = (queryObj: { ['string']: any}) => {
   return map(queryObj, (value: any, key: string) => `${key}=${value}`).join('&')
@@ -142,7 +142,7 @@ export const insertAt = (arr: any[], index: number, newItem: any) => [
   ...arr.slice(index)
 ]
 
-// export const downloadImage = (url: string) => {
-//   const fileName = url.substring(url.lastIndexOf('/') + 1)
-//   saveAs(url, fileName)
-// }
+export const downloadImage = (url: string) => {
+  const fileName = url.substring(url.lastIndexOf('/') + 1)
+  saveAs(url, fileName)
+}

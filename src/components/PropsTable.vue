@@ -39,12 +39,12 @@
   import { useStore } from 'vuex'
   import { map } from 'lodash'
   import maps from '../propsMap'
-  import TextareaFix from './TextareaFix.vue'
-  import ColorPicker from './ColorPicker.vue'
-  import IconSwitch from './IconSwitch.vue'
-  import ShadowPicker from './ShadowPicker.vue'
-  import ImageProcesser from './ImageProcess.vue'
-  import BackgroundProcesser from './BackgroundProcesser.vue'
+//   import TextareaFix from './TextareaFix.vue'
+//   import ColorPicker from './ColorPicker.vue'
+//   import IconSwitch from './IconSwitch.vue'
+//   import ShadowPicker from './ShadowPicker.vue'
+//   import ImageProcesser from './ImageProcess.vue'
+//   import BackgroundProcesser from './BackgroundProcesser.vue'
   import RenderVnode from './RenderVnode'
   export default defineComponent({
     props: {
@@ -61,12 +61,12 @@
       }
     },
     components: {
-      ColorPicker,
-      IconSwitch,
-      ShadowPicker,
-      ImageProcesser,
-      TextareaFix,
-      BackgroundProcesser,
+    //   ColorPicker,
+    //   IconSwitch,
+    //   ShadowPicker,
+    //   ImageProcesser,
+    //   TextareaFix,
+    //   BackgroundProcesser,
       RenderVnode
     },
     emits: ['updated'],
