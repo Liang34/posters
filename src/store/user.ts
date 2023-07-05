@@ -1,7 +1,11 @@
-import { Module } from 'vuex'
 import axios from 'axios'
-import { GlobalDataProps, asyncAndCommit } from './index'
+import { Module } from 'vuex'
+import { GlobalDataProps } from './index' 
+import { RespData } from '../typings/index'
+import { getUserInfo, login } from '@/service/user'
+import request from '@/service/fetch';
 
+// 用户信息
 export interface UserDataProps {
   username?: string;
   id?: string;
@@ -16,37 +20,31 @@ export interface UserDataProps {
   gender?: string;
 }
 
+// 用户状态
 export interface UserProps {
   isLogin: boolean;
-  token: string;
+  token?: string;
   data: UserDataProps;
 }
 
-const userModule: Module<UserProps, GlobalDataProps> = {
+const user: Module<UserProps, GlobalDataProps> = {
   state: {
-    token: localStorage.getItem('token') || '',
     isLogin: false,
-    data: { }
+    data: {},
+    token: localStorage.getItem('token') || ''
   },
   mutations: {
-    fetchCurrentUser (state, rawData) {
-      state.isLogin = true
-      state.data = { ...rawData.data }
-    },
-    updateUser (state, { data, extraData }) {
-      const { token } = data.data
-      state.data = { ...state.data, ...extraData }
-      state.token = token
-      localStorage.setItem('token', token)
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
-    },
-    login (state, rawData) {
+    login(state, rawData: RespData<{ token: string }>) {
       const { token } = rawData.data
       state.token = token
       localStorage.setItem('token', token)
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+      request.defaults.headers.common.Authorization = `Bearer ${token}`
     },
-    logout (state) {
+    fetchCurrentUser(state, rawData: RespData<UserDataProps>) {
+      state.isLogin = true
+      state.data = { ...rawData.data }
+    },
+    logout(state) {
       state.token = ''
       state.isLogin = false
       localStorage.removeItem('token')
@@ -54,26 +52,22 @@ const userModule: Module<UserProps, GlobalDataProps> = {
     }
   },
   actions: {
-    fetchCurrentUser ({ commit }) {
-      return asyncAndCommit('/users/getUserInfo', 'fetchCurrentUser', commit)
+    login: ({ commit }, payload) => {
+      return login(payload).then(rawData => {
+        commit('login', rawData);
+      })
     },
-    login ({ commit }, payload) {
-      return asyncAndCommit('/users/loginByPhoneNumber', 'login', commit, { method: 'post', data: payload })
+    fetchCurrentUser: ({ commit }) => {
+        return getUserInfo().then(rawData => {
+            commit('fetchCurrentUser', rawData);
+        })
     },
-    loginAndFetch ({ dispatch }, loginData) {
+    loginAndFetch({ dispatch }, loginData) {
       return dispatch('login', loginData).then(() => {
         return dispatch('fetchCurrentUser')
       })
-    },
-    updateUser ({ commit }, payload) {
-      return asyncAndCommit('/users/updateUserInfo', 'updateUser', commit, { method: 'patch', data: payload }, payload)
-    },
-    updateUserAndFetch ({ dispatch }, payload) {
-      return dispatch('updateUser', payload).then(() => {
-        return dispatch('fetchCurrentUser')
-      })
-    }
+    }   
   }
-}
+};
 
-export default userModule
+export default user;
