@@ -44,46 +44,39 @@ const router = createRouter({
   }
 })
 
-// router.beforeEach((to, from, next) => {
-//   const { user } = store.state
-//   const { token, isLogin } = user
-//   const { requiredLogin, redirectAlreadyLogin, title } = to.meta
-//   if (title) {
-//     // document.title = title
-//   }
-//   if (!isLogin) {
-//     if (token) {
-//       axios.defaults.headers.common.Authorization = `Bearer ${token}`
-//       store.dispatch('fetchCurrentUser').then((data: any) => {
-//         if (redirectAlreadyLogin) {
-//           next('/')
-//         } else {
-//           if (data.errno !== 0) {
-//             store.commit('logout')
-//             next('login')
-//           } else {
-//             next()
-//           }
-//         }
-//       }).catch(e => {
-//         console.error(e)
-//         store.commit('logout')
-//         next('login')
-//       })
-//     } else {
-//       if (requiredLogin) {
-//         next('login')
-//       } else {
-//         next()
-//       }
-//     }
-//   } else {
-//     if (redirectAlreadyLogin) {
-//       next('/')
-//     } else {
-//       next()
-//     }
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const { user } = store.state
+  const { token, isLogin } = user
+  const { requiredLogin, redirectAlreadyLogin, title } = to.meta
+  console.log('token', token)
+  if (title) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    document.title = title
+  }
+  if (!isLogin) {
+    if (token) {
+      store.dispatch('fetchCurrentUser').then((data: any) => {
+        next();
+      }).catch(e => {
+        console.error(e)
+        store.commit('logout')
+        next('login')
+      })
+    } else {
+      if (requiredLogin) {
+        next('login')
+      } else {
+        next()
+      }
+    }
+  } else {
+    if (redirectAlreadyLogin) {
+      next('/')
+    } else {
+      next()
+    }
+  }
+})
 
 export default router

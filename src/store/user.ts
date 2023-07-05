@@ -59,7 +59,7 @@ const user: Module<UserProps, GlobalDataProps> = {
     },
     fetchCurrentUser: ({ commit }) => {
         return getUserInfo().then(rawData => {
-            commit('fetchCurrentUser', rawData);
+            return commit('fetchCurrentUser', rawData);
         })
     },
     loginAndFetch({ dispatch }, loginData) {
