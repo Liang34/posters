@@ -177,6 +177,7 @@ export default defineComponent({
         await store.dispatch('createChannel', payload)
         form.channelName = ''
       } catch (e) {
+        return ''
       }
     }
     const deleteChannel = (id: number) => {

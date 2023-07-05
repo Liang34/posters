@@ -98,7 +98,7 @@ export default defineComponent({
     const total = computed(() => store.state.works.totalTemplates)
     const loading = computed(() => store.state.status.loading)
     const currentSearchText = computed(() => store.state.works.searchText)
-    const { loadMorePage, isLastPage } = useLoadMore('fetchTemplates', total, { pageIndex: 0, pageSize: 8, title: searchText.value }, 8)
+    const { loadMorePage, isLastPage } = useLoadMore('fetchTemplates', total, { pageIndex: 0, pageSize: 8, title: searchText.value })
     const onSearch = () => {
       const title = searchText.value.trim()
       if (title !== '' || currentSearchText.value !== '') {

@@ -390,8 +390,6 @@ const editorModule: Module<EditProps, GlobalDataProps> = {
     saveWork ({ commit, state }, payload) {
       const { id, data } = payload
       if (data) {
-
-      } else {
         // save current work
         const { title, desc, props, coverImg, setting } = state.page
         const postData = {

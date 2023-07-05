@@ -450,9 +450,9 @@ export default defineComponent({
 .preview-list.active {
   border: 1px solid #1890ff;
 }
-.preview-list.canvas-fix .l-text-component,
-.preview-list.canvas-fix .l-image-component,
-.preview-list.canvas-fix .l-shape-component {
+.preview-list.canvas-fix .p-text-component,
+.preview-list.canvas-fix .p-image-component,
+.preview-list.canvas-fix .p-shape-component {
   box-shadow: none !important;
 }
 .preview-list.canvas-fix {

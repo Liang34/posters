@@ -127,6 +127,8 @@ export const getDaysArray = (start: Date, end: Date) => {
   const arr = []
   // eslint-disable-next-line no-unmodified-loop-condition
   for (let dt = new Date(start); dt <= end; dt.setDate(dt.getDate() + 1)) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     arr.push(new Date(dt))
   }
   return arr

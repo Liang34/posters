@@ -69,8 +69,8 @@
 import { defineComponent, computed, onMounted, ref, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import echarts from 'echarts/lib/echarts'
-import 'echarts/lib/chart/line'
+// import echarts from 'echarts/lib/echarts'
+// import 'echarts/lib/chart/line'
 import { GlobalDataProps } from '../store/index'
 import WorksList from '../components/WorksList.vue'
 import useCreateDesign from '../hooks/useCreateDesign'
@@ -229,7 +229,7 @@ export default defineComponent({
         return Promise.all(promiseArr)
       }).then(() => {
         if (!myChart) {
-          myChart = echarts.init(document.getElementById('main-chart'))
+          // myChart = echarts.init(document.getElementById('main-chart'))
         }
         myChart.clear()
         myChart.setOption(staticOptions.value)

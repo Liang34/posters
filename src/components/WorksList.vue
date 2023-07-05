@@ -1,20 +1,46 @@
 <template>
-  <div class="works-list-component">
+  <div class="template-list-component">
+    <a-modal
+      title="转赠作品"
+      v-model:visible="sendModal"
+      :footer="null"
+    >
+      <a-form
+        :model="form" :rules="rules"
+        ref="publishForm" layout="vertical"
+      >
+        <a-form-item label="用户名" required name="username">
+          <a-input v-model:value="form.username" placeholder="填写要转赠人的用户名">
+            <template v-slot:prefix><UserOutlined style="color:rgba(0,0,0,.25)"/></template>
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" @click="sendGift" size="large"
+            :loading="loading"
+          >
+            {{ loading ? '加载中' : '转赠该作品'}}
+          </a-button>
+        </a-form-item>
+      </a-form>
+    </a-modal>
     <a-skeleton v-if="loading"/>
     <a-row :gutter="16" v-else>
-      <a-col :span="6" v-for="item in list" :key="item.id" class="poster-item">
-        <a-card hoverable>
+      <a-col :span="6" v-for="item in listWithBarcode" :key="item.id" class="poster-item">
+        <a-card hoverable @mouseenter="() => showBarcode(item.id, item.barcodeUrl)">
           <template v-slot:cover>
             <img :src="item.coverImg"  v-if="item.coverImg" />
             <img src="http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png"  v-else />
             <div class="hover-item">
-              <router-link :to="`/editor/${item.id}`"><a-button size="large" type="primary">继续编辑该作品</a-button></router-link>
+              <div :id="`barcode-${item.id}`" class="barcode-container" v-if="item.status === '2'">
+              </div>
+              <router-link :to="`/editor/${item.id}`" v-else><a-button size="large" type="primary">继续编辑该作品</a-button></router-link>
             </div>
           </template>
           <template class="ant-card-actions" v-slot:actions>
-            <router-link :to="`/editor/${item.id}`"><EditOutlined /></router-link>
+            <router-link :to="`/editor/${item.id}`"><EditOutlined key="edit" /></router-link>
+            <a href="javascript:;"  @click.prevent="staticClicked(item.id)" v-if="item.status === '2'"><BarChartOutlined key="chart" /></a>
             <a-dropdown >
-              <EllipsisOutlined />
+              <EllipsisOutlined key="ellipsis" />
               <template v-slot:overlay>
                 <a-menu class="overlay-dropdown">
                   <a-menu-item>
@@ -24,8 +50,12 @@
                     <a href="javascript:;"  @click.prevent="deleteClicked(item.id)"><DeleteOutlined /> 删除</a>
                   </a-menu-item>
                   <a-menu-item v-if="item.coverImg">
-                    <a href="javascript:;"><DownloadOutlined /> 下载图片</a>
+                    <a href="javascript:;"  @click.prevent="saveImage(item.coverImg)"><DownloadOutlined /> 下载图片</a>
                   </a-menu-item>
+                  <a-menu-item>
+                    <a href="javascript:;"  @click.prevent="sendClicked(item.id)"><GiftOutlined /> 转赠</a>
+                  </a-menu-item>
+
                 </a-menu>
               </template>
             </a-dropdown>
@@ -34,10 +64,10 @@
           </a-card-meta>
         </a-card>
         <div class="tag-list">
-          <a-tag color="red" v-if="item.status === 1">
+          <a-tag color="red" v-if="item.status === '1'">
             未发布
           </a-tag>
-          <a-tag color="green" v-if="item.status === 2">
+          <a-tag color="green" v-else>
             已发布
           </a-tag>
         </div>
@@ -47,23 +77,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { EditOutlined, EllipsisOutlined, CopyOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons-vue'
-import { TemplateProps } from '../store/templates'
+import { defineComponent, PropType, computed, ref, nextTick, reactive, Ref, watch } from 'vue'
+import { EditOutlined, BarChartOutlined, EllipsisOutlined, CopyOutlined, DeleteOutlined, GiftOutlined, UserOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import QRCode from 'qrcodejs2'
+import { WorkProp } from '../store/works'
 import { Modal } from 'ant-design-vue'
+import { baseH5URL } from '../main'
+import { RuleFormInstance } from '../views/Setting.vue'
+import { downloadImage } from '../helper'
 export default defineComponent({
   name: 'works-list',
-  emits: ['on-copy', 'on-delete'],
+  emits: ['on-copy', 'on-delete', 'on-static', 'on-send'],
   components: {
     EditOutlined,
+    BarChartOutlined,
     EllipsisOutlined,
     CopyOutlined,
     DeleteOutlined,
+    GiftOutlined,
+    UserOutlined,
     DownloadOutlined
   },
   props: {
     list: {
-      type: Array as PropType<TemplateProps[]>,
+      type: Array as PropType<WorkProp[]>,
       required: true
     },
     loading: {
@@ -75,7 +114,43 @@ export default defineComponent({
       default: false
     }
   },
-  setup(props, context) {
+  setup (props, context) {
+    const container = ref<null | HTMLElement>(null)
+    const sendModal = ref(false)
+    const currentItem = ref(0)
+    const publishForm = ref() as Ref<RuleFormInstance>
+    const listWithBarcode = computed(() => {
+      return props.list.map(item => {
+        item.barcodeUrl = `${baseH5URL}/p/${item.id}-${item.uuid}`
+        return item
+      })
+    })
+    watch(() => props.transferStatus, () => {
+      if (props.transferStatus) {
+        sendModal.value = false
+      }
+    })
+    const form = reactive({
+      username: ''
+    })
+    const rules = {
+      username: [
+        { required: true, message: '用户昵称不能为空', trigger: 'blur' }
+      ]
+    }
+    const showBarcode = (id: number, url?: string) => {
+      nextTick(() => {
+        const container = document.getElementById(`barcode-${id}`)
+        if (container && url && !container.hasChildNodes()) {
+          // eslint-disable-next-line no-new
+          new QRCode(container, {
+            text: url,
+            width: 80,
+            height: 80
+          })
+        }
+      })
+    }
     const deleteClicked = (id: number) => {
       Modal.confirm({
         title: '确定要删除该作品吗？',
@@ -90,93 +165,46 @@ export default defineComponent({
     const copyClicked = (id: number) => {
       context.emit('on-copy', id)
     }
-
+    const staticClicked = (id: number) => {
+      context.emit('on-static', id)
+    }
+    const saveImage = (url: string) => {
+      downloadImage(url)
+    }
+    const sendClicked = (id: number) => {
+      sendModal.value = true
+      currentItem.value = id
+    }
+    const sendGift = () => {
+      publishForm.value.validate().then(() => {
+        context.emit('on-send', { id: currentItem.value, username: form.username })
+      })
+    }
     return {
       deleteClicked,
       copyClicked,
+      listWithBarcode,
+      showBarcode,
+      container,
+      staticClicked,
+      sendClicked,
+      sendModal,
+      publishForm,
+      rules,
+      form,
+      sendGift,
+      saveImage
     }
   }
 })
 </script>
 
 <style>
-.poster-item {
-  position: relative;
-  margin-bottom: 20px;
+.barcode-container {
+  width: 80px;
+  height: 80px;
 }
-.poster-item .ant-card {
-  border-radius: 12px;
-}
-.tag-list {
-  position: absolute;
-  top: -4px;
-  left: 6px;
-}
-.poster-item .ant-card-cover {
-  height: 390px;
-}
-.poster-item .ant-card-cover > img {
-  width: 100%;
-}
-.poster-item .ant-card-hoverable {
-  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
-}
-.poster-item .ant-card-body {
-  padding: 0
-}
-.poster-item .ant-card-meta {
-  margin: 0;
-}
-.poster-item .ant-card-meta-title {
-  color: #333;
-  padding: 10px 12px;
-  border-bottom: 1px solid #f2f2f2;
-  margin-bottom: 0 !important;
-}
-.description-detail {
-  display: flex;
-  justify-content: space-between;
-  padding: 13px 12px;
-  color: #999;
-}
-.user-number {
-  font-weight: bold;
-}
-.poster-title {
-  height: 70px;
-}
-.poster-title h2 {
-  margin-bottom: 0px;
-}
-.poster-item .ant-card-cover {
-  position: relative;
-  overflow: hidden;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
-.poster-item .ant-card-cover  img {
-  transition: all ease-in .2s;
-}
-.poster-item .ant-card-cover .hover-item {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  background: rgba(0, 0, 0, .8);
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
-.poster-item:hover .hover-item {
-  display: flex;
-}
-.poster-item:hover img {
-  transform: scale(1.25);
-}
-.barcode-container img {
-  border-radius: 0;
+.overlay-dropdown {
+  border-radius: 2px !important;
 }
 </style>
