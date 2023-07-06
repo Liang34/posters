@@ -206,7 +206,7 @@
     user-select: none;
     z-index: 1500;
   }
-  .edit-wrapper .l-text-component, .edit-wrapper .l-image-component, .edit-wrapper .l-shape-component {
+  .edit-wrapper .p-text-component, .edit-wrapper .p-image-component, .edit-wrapper .p-shape-component {
     position: static !important;
   }
   .edit-wrapper.active .resizers .resizer {
