@@ -1,3 +1,4 @@
+<!-- 用户中心页面-->
 <template>
   <div class="setting-container">
     <a-row type="flex" justify="center">
@@ -101,7 +102,7 @@ export default defineComponent({
     const form = reactive({
       username: user.value.nickName || '',
       gender: user.value.gender || '0',
-      uploaded: { data: { url: (user.value.picture || 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f79389d4737571e2e1dc7cb.png') } }
+      uploaded: { data: { url: (user.value.picture || 'https://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/logo-profile.png') } }
     })
     const status = computed(() => store.state.status)
     const tableColumns = [

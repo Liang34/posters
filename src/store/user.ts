@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Module } from 'vuex'
 import { GlobalDataProps } from './index' 
 import { RespData } from '../typings/index'
-import { getUserInfo, login } from '@/service/user'
+import { getUserInfo, login, updateUserInfo } from '@/service/user'
 import request from '@/service/fetch';
 
 // 用户信息
@@ -49,7 +49,14 @@ const user: Module<UserProps, GlobalDataProps> = {
       state.isLogin = false
       localStorage.removeItem('token')
       delete axios.defaults.headers.common.Authorization
-    }
+    },
+    updateUser (state, { data, extraData }) {
+      const { token } = data.data
+      state.data = { ...state.data, ...extraData }
+      state.token = token
+      localStorage.setItem('token', token)
+      request.defaults.headers.common.Authorization = `Bearer ${token}`
+    },
   },
   actions: {
     login: ({ commit }, payload) => {
@@ -66,7 +73,17 @@ const user: Module<UserProps, GlobalDataProps> = {
       return dispatch('login', loginData).then(() => {
         return dispatch('fetchCurrentUser')
       })
-    }   
+    },
+    updateUser ({ commit }, payload) {
+      updateUserInfo(payload).then(data => {
+        commit('updateUser', data);
+      })
+    },
+    updateUserAndFetch ({ dispatch }, payload) {
+      return dispatch('updateUser', payload).then(() => {
+        return dispatch('fetchCurrentUser')
+      })
+    } 
   }
 };
 
