@@ -3,6 +3,7 @@ import { GlobalDataProps, asyncAndCommit } from './index'
 import { PageData } from './editor'
 import { objToQueryString } from '../helper'
 import { baseStaticURL } from '../main'
+import { getTemplate } from '@/service/work'
 export type WorkProp = Required<Omit<PageData, 'props' | 'setting'>> & {
   barcodeUrl?: string;
 }
@@ -97,8 +98,9 @@ const workModule: Module<WorksProp, GlobalDataProps> = {
       if (!queryObj.title) {
         delete queryObj.title
       }
-      const queryString = objToQueryString(queryObj)
-      return asyncAndCommit(`/works?${queryString}`, 'fetchWorks', commit, { method: 'get' }, { pageIndex: queryObj.pageIndex, searchText: queryObj.title })
+      getTemplate(queryObj).then((data) => {
+        commit('fetchWorks', {data, extraData: { pageIndex: queryObj.pageIndex, searchText: queryObj.title }})
+      })
     },
     deleteWork ({ commit }, id) {
       return asyncAndCommit(`/works/${id}`, 'deleteWork', commit, { method: 'delete' }, { id })
