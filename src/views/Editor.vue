@@ -46,7 +46,7 @@
       <a-layout-header class="header">
         <div class="page-title">
           <router-link to="/">
-            <img alt="Vue logo" src="../assets/logo-simple.png" class="logo-img">
+            <img alt="Vue logo" src="../assets/logo.png" class="logo-img">
           </router-link>
           <input-edit :value="pageState.title" @change="titleChange">
             <h4>{{pageState.title}}</h4>
@@ -216,7 +216,7 @@ export default defineComponent({
     const previewURL = computed(() => `${baseH5URL}/p/preview/${pageState.value.id}-${pageState.value.uuid}`)
     const saveWork = (showMessage = false) => {
       isSaving.value = true
-      return store.dispatch('saveWork', { id: currentWorkId }).then(() => {
+      return store.dispatch('saveWorkT', { id: currentWorkId }).then(() => {
         if (showMessage) {
           message.success('保存成功', 2)
         }

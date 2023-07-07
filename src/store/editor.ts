@@ -4,6 +4,7 @@ import { cloneDeep, isUndefined } from 'lodash'
 import { GlobalDataProps, asyncAndCommit } from './index'
 import { insertAt } from '../helper'
 import { MoveDirection } from '../plugins/dataOperations'
+import { getWork, saveWork } from '@/service/editor'
 export interface ComponentData {
   props: { [key: string]: any };
   id: string;
@@ -376,7 +377,9 @@ const editorModule: Module<EditProps, GlobalDataProps> = {
   },
   actions: {
     getWork ({ commit }, id) {
-      return asyncAndCommit(`/works/${id}`, 'getWork', commit)
+      return  getWork(id).then(data => {
+        return commit('getWork', data)
+      })
     },
     getChannels ({ commit }, id) {
       return asyncAndCommit(`/channel/getWorkChannels/${id}`, 'getChannels', commit)
@@ -387,9 +390,9 @@ const editorModule: Module<EditProps, GlobalDataProps> = {
     deleteChannel ({ commit }, id) {
       return asyncAndCommit(`channel/${id}`, 'deleteChannel', commit, { method: 'delete' }, { id })
     },
-    saveWork ({ commit, state }, payload) {
+    saveWorkT ({ commit, state }, payload) {
       const { id, data } = payload
-      if (data) {
+      if (!data) {
         // save current work
         const { title, desc, props, coverImg, setting } = state.page
         const postData = {
@@ -402,7 +405,7 @@ const editorModule: Module<EditProps, GlobalDataProps> = {
             setting
           }
         }
-        return asyncAndCommit(`/works/${id}`, 'saveWork', commit, { method: 'patch', data: postData })
+        return saveWork({id, data: postData})
       }
     },
     copyWork ({ commit }, id) {
