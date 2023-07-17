@@ -154,7 +154,7 @@ import { defineComponent, ref, computed, watch, onMounted, onUnmounted, nextTick
 import { useStore } from 'vuex'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
-import { pickBy, mapValues } from 'lodash'
+import { pickBy, mapValues } from 'lodash-es'
 import PublishForm from './PublishForm.vue'
 import ChannelForm from './ChannelForm.vue'
 import HistoryArea from './HistoryArea.vue'

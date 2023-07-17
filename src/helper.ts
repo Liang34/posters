@@ -2,7 +2,7 @@ import { message } from 'ant-design-vue'
 import axios from 'axios'
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
-import { map } from 'lodash'
+import { map } from 'lodash-es'
 interface CheckCondition {
   format?: string[];
   size?: number;

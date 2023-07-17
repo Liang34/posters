@@ -86,7 +86,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, Ref, computed, onMounted, watch, nextTick } from 'vue'
-import { last } from 'lodash'
+import { last } from 'lodash-es'
 import ClipboardJS from 'clipboard'
 import QRCode from 'qrcodejs2'
 import { message } from 'ant-design-vue'

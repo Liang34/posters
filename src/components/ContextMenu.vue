@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, onUnmounted } from 'vue'
-import { map, pick } from 'lodash'
+import { map, pick } from 'lodash-es'
 import { clickInsideElement } from '../helper'
 import dataOperation, { operationText } from '../plugins/dataOperations'
 export default defineComponent({

@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash'
+import { mapValues } from 'lodash-es'
 interface DefaultPropsType {
   [key: string]: {
     props: object;

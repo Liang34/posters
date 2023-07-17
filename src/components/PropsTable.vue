@@ -37,7 +37,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
-import { map } from 'lodash'
+import { map } from 'lodash-es'
 import maps from '../propsMap'
 import TextareaFix from './TextareaFix.vue'
 import ColorPicker from './ColorPicker.vue'

@@ -1,6 +1,6 @@
 import { Module } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
-import { cloneDeep, isUndefined } from 'lodash'
+import { cloneDeep, isUndefined } from 'lodash-es'
 import { GlobalDataProps, asyncAndCommit } from './index'
 import { insertAt } from '../helper'
 import { MoveDirection } from '../plugins/dataOperations'

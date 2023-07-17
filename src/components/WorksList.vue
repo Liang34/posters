@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed, ref, nextTick, reactive, Ref, watch } from 'vue'
-import { EditOutlined, BarChartOutlined, EllipsisOutlined, CopyOutlined, DeleteOutlined, GiftOutlined, UserOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+// import { EditOutlined, BarChartOutlined, EllipsisOutlined, CopyOutlined, DeleteOutlined, GiftOutlined, UserOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import QRCode from 'qrcodejs2'
@@ -91,14 +91,14 @@ export default defineComponent({
   name: 'works-list',
   emits: ['on-copy', 'on-delete', 'on-static', 'on-send'],
   components: {
-    EditOutlined,
-    BarChartOutlined,
-    EllipsisOutlined,
-    CopyOutlined,
-    DeleteOutlined,
-    GiftOutlined,
-    UserOutlined,
-    DownloadOutlined
+    // EditOutlined,
+    // BarChartOutlined,
+    // EllipsisOutlined,
+    // CopyOutlined,
+    // DeleteOutlined,
+    // GiftOutlined,
+    // UserOutlined,
+    // DownloadOutlined
   },
   props: {
     list: {

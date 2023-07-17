@@ -47,15 +47,15 @@ import axios from 'axios';
 import { getVeriCode } from '../service/user';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+// import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { message, Form } from 'ant-design-vue';
 import { Rule } from 'ant-design-vue/es/form/interface';
 import { GlobalDataProps } from '../store/index';
 
 export default defineComponent({
   components: {
-    UserOutlined,
-    LockOutlined
+    // UserOutlined,
+    // LockOutlined
   },
   setup() {
     const form = reactive({

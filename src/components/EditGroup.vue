@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { difference } from 'lodash'
+import { difference } from 'lodash-es'
 import { defineComponent, PropType, computed, ref } from 'vue'
 import PropTable from '../components/PropsTable.vue'
 interface GroupProps {

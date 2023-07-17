@@ -81,13 +81,13 @@ import { useStore } from 'vuex'
 import { GlobalDataProps } from '../store/index'
 import TemplateList from '../components/TemplateList.vue'
 import useLoadMore from '../hooks/useLoadMore'
-import { Html5TwoTone, BuildTwoTone, BulbTwoTone } from '@ant-design/icons-vue'
+// import { Html5TwoTone, BuildTwoTone, BulbTwoTone } from '@ant-design/icons-vue'
 export default defineComponent({
   components: {
     TemplateList,
-    Html5TwoTone,
-    BuildTwoTone,
-    BulbTwoTone
+    // Html5TwoTone,
+    // BuildTwoTone,
+    // BulbTwoTone
   },
   setup () {
     const store = useStore<GlobalDataProps>()
