@@ -390,7 +390,7 @@ const editorModule: Module<EditProps, GlobalDataProps> = {
     deleteChannel ({ commit }, id) {
       return asyncAndCommit(`channel/${id}`, 'deleteChannel', commit, { method: 'delete' }, { id })
     },
-    saveWorkT ({ commit, state }, payload) {
+    saveWork ({ commit, state }, payload) {
       const { id, data } = payload
       if (!data) {
         // save current work
@@ -405,7 +405,9 @@ const editorModule: Module<EditProps, GlobalDataProps> = {
             setting
           }
         }
-        return saveWork({id, data: postData})
+        return saveWork({id, data: postData}).then(() => {
+          commit('saveWork')
+        })
       }
     },
     copyWork ({ commit }, id) {

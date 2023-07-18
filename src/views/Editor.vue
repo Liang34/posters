@@ -56,7 +56,7 @@
           :selectable="false"
           theme="dark"
           mode="horizontal"
-          :style="{ lineHeight: '64px' }"
+          :style="{ lineHeight: '64px', width: '520px' }"
         >
           <a-menu-item key="1">
             <a-button type="primary" @click="previewWork">预览和设置</a-button>
@@ -214,9 +214,10 @@ export default defineComponent({
     const currentWorkId = route.params.id
     let timer: any
     const previewURL = computed(() => `${baseH5URL}/p/preview/${pageState.value.id}-${pageState.value.uuid}`)
+    // 保存作品
     const saveWork = (showMessage = false) => {
       isSaving.value = true
-      return store.dispatch('saveWorkT', { id: currentWorkId }).then(() => {
+      return store.dispatch('saveWork', { id: currentWorkId }).then(() => {
         if (showMessage) {
           message.success('保存成功', 2)
         }
@@ -406,6 +407,9 @@ export default defineComponent({
 </script>
 
 <style>
+.ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover {
+  background-color: transparent;
+}
 .header {
   display: flex;
   justify-content: space-between;

@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import { map } from 'lodash-es'
 import maps from '../propsMap'
@@ -77,6 +77,8 @@ export default defineComponent({
       commit(props.mutationName, finalData)
     }
     const finalProps = computed(() => {
+      debugger;
+      console.log(toRefs(props.props))
       return map(props.props, (value, key) => {
         const {
           component, intialTransform, afterTransform,

@@ -1,10 +1,12 @@
 // 缩小antd体积
-
+// collapse
 import { Avatar, Button, Spin, Modal, Drawer, Card, Tag,
   Layout, Tabs, Menu, Row, Col, 
-  Form, Dropdown, Input, InputNumber, Slider, Radio, Select } from 'ant-design-vue'
+  Form, Dropdown, Input, InputNumber, Slider, Radio, Select, Collapse } from 'ant-design-vue'
 import { App } from 'vue'
 const components = [
+  Collapse,
+  Collapse.Panel,
   Avatar,
   Button,
   Spin,
