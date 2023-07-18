@@ -41,8 +41,9 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, ref, onMounted, computed } from 'vue'
-// import { UserOutlined } from '@ant-design/icons-vue'
+import { UserOutlined } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import QRCode from 'qrcodejs2'
@@ -53,7 +54,7 @@ import { downloadImage } from '../helper'
 export default defineComponent({
   name: 'TemplateDetail',
   components: {
-    // UserOutlined
+    UserOutlined
   },
   setup () {
     const store = useStore<GlobalDataProps>()

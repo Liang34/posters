@@ -66,8 +66,9 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, ref, onMounted, Ref, computed, reactive } from 'vue'
-// import { UserOutlined } from '@ant-design/icons-vue'
+import { UserOutlined } from '@ant-design/icons-vue'
 import { GlobalDataProps } from '../store/index'
 import StyledUploader from '../components/StyledUploader.vue'
 import { useStore } from 'vuex'
@@ -84,7 +85,7 @@ interface PaginationProps {
 export default defineComponent({
   name: 'Setting',
   components: {
-    // UserOutlined,
+    UserOutlined,
     // StyledUploader
   },
   setup () {

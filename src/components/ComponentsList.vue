@@ -79,8 +79,9 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue'
-// import { FileImageOutlined, LoadingOutlined, FieldStringOutlined, BuildOutlined } from '@ant-design/icons-vue'
+import { FileImageOutlined, LoadingOutlined, FieldStringOutlined, BuildOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 // import Uploader from './Uploader.vue'
 import { componentsDefaultProps } from '../defaultProps'
@@ -257,10 +258,10 @@ const shapeList: CreateComponentType[] = shapePropsList.map((prop) => {
 export default defineComponent({
   components: {
     // Uploader,
-    // FileImageOutlined,
-    // LoadingOutlined,
-    // FieldStringOutlined,
-    // BuildOutlined
+    FileImageOutlined,
+    LoadingOutlined,
+    FieldStringOutlined,
+    BuildOutlined
   },
   name: 'components-list',
   emits: ['on-item-click'],

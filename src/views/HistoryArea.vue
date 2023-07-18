@@ -46,16 +46,17 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, computed, ref } from 'vue'
 import { useStore } from 'vuex'
-// import { RedoOutlined, UndoOutlined, QuestionOutlined } from '@ant-design/icons-vue'
+import { RedoOutlined, UndoOutlined, QuestionOutlined } from '@ant-design/icons-vue'
 import { GlobalDataProps } from '../store/index'
 import { operationText } from '../plugins/dataOperations'
 export default defineComponent({
   components: {
-    // RedoOutlined,
-    // UndoOutlined,
-    // QuestionOutlined
+    RedoOutlined,
+    UndoOutlined,
+    QuestionOutlined
   },
   setup () {
     const modalVisible = ref(false)

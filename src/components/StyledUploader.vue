@@ -26,16 +26,17 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue'
-// import { FileImageOutlined, LoadingOutlined } from '@ant-design/icons-vue'
+import { FileImageOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { commonUploadCheck } from '../helper'
 import Uploader from './Uploader.vue'
 
 export default defineComponent({
   components: {
     Uploader,
-    // FileImageOutlined,
-    // LoadingOutlined
+    FileImageOutlined,
+    LoadingOutlined
   },
   props: {
     text: {

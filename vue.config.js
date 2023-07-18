@@ -7,11 +7,11 @@ module.exports = {
     config.resolve.alias = {
       "@": path.resolve(__dirname, "src"),
     };
-    config.plugins.push(
-      new BundleAnalyzerPlugin({
-        analyzerMode: "static",
-      })
-    );
+    // config.plugins.push(
+    //   new BundleAnalyzerPlugin({
+    //     analyzerMode: "static",
+    //   })
+    // );
     // 为啥不生效？？？？？？
     config.optimization.splitChunks = {
       maxInitialRequests: 300 * 1024,

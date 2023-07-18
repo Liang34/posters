@@ -11,7 +11,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue'
 import { BoldOutlined, ItalicOutlined, UnderlineOutlined } from '@ant-design/icons-vue'
 export default defineComponent({

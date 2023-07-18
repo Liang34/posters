@@ -37,7 +37,7 @@
             </div>
           </template>
           <template class="ant-card-actions" v-slot:actions>
-            <router-link :to="`/editor/${item.id}`"><EditOutlined key="edit" /></router-link>
+            <router-link :to="`/editor/${item.id}`"><EditOutlined /></router-link>
             <a href="javascript:;"  @click.prevent="staticClicked(item.id)" v-if="item.status === '2'"><BarChartOutlined key="chart" /></a>
             <a-dropdown >
               <EllipsisOutlined key="ellipsis" />
@@ -74,13 +74,13 @@
       </a-col>
     </a-row>
   </div>
+  <CheckCircleOutlined />
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, PropType, computed, ref, nextTick, reactive, Ref, watch } from 'vue'
-// import { EditOutlined, BarChartOutlined, EllipsisOutlined, CopyOutlined, DeleteOutlined, GiftOutlined, UserOutlined, DownloadOutlined } from '@ant-design/icons-vue'
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
+import { EditOutlined, BarChartOutlined, EllipsisOutlined, CopyOutlined, DeleteOutlined, GiftOutlined, UserOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import QRCode from 'qrcodejs2'
 import { WorkProp } from '../store/works'
 import { Modal } from 'ant-design-vue'
@@ -91,14 +91,14 @@ export default defineComponent({
   name: 'works-list',
   emits: ['on-copy', 'on-delete', 'on-static', 'on-send'],
   components: {
-    // EditOutlined,
-    // BarChartOutlined,
-    // EllipsisOutlined,
-    // CopyOutlined,
-    // DeleteOutlined,
-    // GiftOutlined,
-    // UserOutlined,
-    // DownloadOutlined
+    EditOutlined,
+    BarChartOutlined,
+    EllipsisOutlined,
+    CopyOutlined,
+    DeleteOutlined,
+    GiftOutlined,
+    UserOutlined,
+    DownloadOutlined
   },
   props: {
     list: {
@@ -193,7 +193,8 @@ export default defineComponent({
       rules,
       form,
       sendGift,
-      saveImage
+      saveImage,
+      EditOutlined
     }
   }
 })

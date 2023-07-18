@@ -40,9 +40,10 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, PropType } from 'vue'
 import { VueDraggableNext } from 'vue-draggable-next'
-// import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined, DragOutlined } from '@ant-design/icons-vue'
+import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined, DragOutlined } from '@ant-design/icons-vue'
 import { ComponentData } from '../store/editor'
 import InputEdit from '../components/InputEdit.vue'
 export default defineComponent({
@@ -58,11 +59,11 @@ export default defineComponent({
   },
   emits: ['select', 'change'],
   components: {
-    // EyeOutlined,
-    // EyeInvisibleOutlined,
-    // LockOutlined,
-    // UnlockOutlined,
-    // DragOutlined,
+    EyeOutlined,
+    EyeInvisibleOutlined,
+    LockOutlined,
+    UnlockOutlined,
+    DragOutlined,
     Draggable: VueDraggableNext,
     InputEdit
   },

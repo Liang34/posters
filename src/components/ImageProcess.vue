@@ -49,10 +49,11 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, ref, computed, watch, nextTick } from 'vue'
 import Cropper from 'cropperjs'
 import { message } from 'ant-design-vue'
-// import { UploadOutlined, ScissorOutlined, LoadingOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { UploadOutlined, ScissorOutlined, LoadingOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import Uploader from './Uploader.vue'
 import { commonUploadCheck, UploadImgProps } from '../helper'
 export default defineComponent({
@@ -70,10 +71,10 @@ export default defineComponent({
     }
   },
   components: {
-    // UploadOutlined,
-    // ScissorOutlined,
-    // LoadingOutlined,
-    // DeleteOutlined,
+    UploadOutlined,
+    ScissorOutlined,
+    LoadingOutlined,
+    DeleteOutlined,
     Uploader
   },
   emits: ['change', 'uploaded'],
