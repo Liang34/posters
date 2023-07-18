@@ -83,7 +83,7 @@
 import { defineComponent } from 'vue'
 import { FileImageOutlined, LoadingOutlined, FieldStringOutlined, BuildOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-// import Uploader from './Uploader.vue'
+import Uploader from './Uploader.vue'
 import { componentsDefaultProps } from '../defaultProps'
 import { commonUploadCheck, imageDimensions, UploadImgProps } from '../helper'
 const textDefaultProps = componentsDefaultProps['p-text'].props
@@ -178,16 +178,14 @@ const textList: CreateComponentType[] = textPropsList.map((prop) => {
   }
 })
 const imgSourceList = [
-  'http://static.imooc-lego.com/upload-files/logo-white-735536.png',
-  'http://static.imooc-lego.com/upload-files/logo-black-049885.png',
-  'http://static.imooc-lego.com/upload-files/528w-0ilmEQMomZ8-108048.png',
-  'http://static.imooc-lego.com/upload-files/frame-096161.png',
-  'http://static.imooc-lego.com/upload-files/text-449964.png',
-  'http://static.imooc-lego.com/upload-files/text2-288504.png',
-  'http://static.imooc-lego.com/upload-files/money-664239.png',
-  'http://static.imooc-lego.com/upload-files/bag-904186.png',
-  'http://static.imooc-lego.com/upload-files/text3-086652.png',
-  'http://static.imooc-lego.com/upload-files/text4-145592.png'
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/R-C-881385.jpg',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/R-C-801484.jpg',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/20210526104042573-518814.jpg',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/OIP-C-904361.jpg',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/OIP-C-195744.jpg',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/screenshot20230718-470612.png',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/OIP-C-895012.jpg',
+  'http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/R-C-607634.jpg'
 ]
 const imageList: CreateComponentType[] = imgSourceList.map((url) => {
   return {
@@ -257,7 +255,7 @@ const shapeList: CreateComponentType[] = shapePropsList.map((prop) => {
 
 export default defineComponent({
   components: {
-    // Uploader,
+    Uploader,
     FileImageOutlined,
     LoadingOutlined,
     FieldStringOutlined,
@@ -280,7 +278,7 @@ export default defineComponent({
       } as CreateComponentType
       message.success('上传成功')
       data.props.imageSrc = uploadedData.data.urls[0]
-      imageDimensions(uploadedData.file).then(dimension => {
+      imageDimensions(uploadedData.data.file).then(dimension => {
         const maxWidth = 300
         data.props.width = ((dimension.width > maxWidth) ? maxWidth : dimension.width) + 'px'
         context.emit('on-item-click', data)

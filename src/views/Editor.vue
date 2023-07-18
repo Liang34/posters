@@ -236,7 +236,6 @@ export default defineComponent({
       await nextTick()
       try {
         const rawData = await takeScreenshotAndUpload('canvas-area')
-        debugger;
         if (rawData) {
           store.commit('updatePage', { key: 'coverImg', value: rawData?.data.urls[0] })
         }
@@ -253,7 +252,6 @@ export default defineComponent({
       isPublishing.value = true
       try {
         await takeScreenUpdate()
-        debugger;
       } catch (e) {
         console.error(e)
       } finally {

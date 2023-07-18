@@ -1,3 +1,6 @@
+<!--
+  图片上传
+-->
 <template>
   <div class="file-upload">
     <div class="file-upload-container" @click.prevent="triggerUpload" v-bind="$attrs">
@@ -21,7 +24,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, PropType, watch } from 'vue'
-import axios from 'axios'
+import { uploadImgs } from '@/service/utils';
 type UploadStatus = 'ready' | 'loading' | 'success' | 'error'
 
 type CheckFunction = (file: File) => boolean;
@@ -70,18 +73,13 @@ export default defineComponent({
         fileStatus.value = 'loading'
         const formData = new FormData()
         formData.append('file', files[0])
-        axios.post(props.action, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(resp => {
+        uploadImgs(formData).then(resp => {
           fileStatus.value = 'success'
           uploadedData.value = resp.data
-          resp.data.file = files[0]
-          context.emit('file-uploaded', resp.data)
-        }).catch((error) => {
+          context.emit('file-uploaded', {data:{...resp.data, file: files[0]}})
+        }).catch(err => {
           fileStatus.value = 'error'
-          context.emit('file-uploaded-error', { error })
+          context.emit('file-uploaded-error', { err })
         }).finally(() => {
           if (fileInput.value) {
             fileInput.value.value = ''

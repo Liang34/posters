@@ -18,6 +18,7 @@ export interface UploadImgProps {
   errno: number;
   file: File;
 }
+// 上传前图片检测
 export function beforeUploadCheck(file: File, condition: CheckCondition) {
   const { format, size } = condition
   const isValidFormat = format ? format.includes(file.type) : true
