@@ -4,7 +4,6 @@ import Home from '../views/Home.vue'
 import MyWork from '../views/MyWork.vue'
 import TemplateDetail from '../views/TemplateDetail.vue'
 import Setting from '../views/Setting.vue'
-import axios from 'axios'
 import store from '../store'
 
 const routes: Array<RouteRecordRaw> = [
@@ -13,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Index',
     component: Index,
     children: [
-      { path: '', name: 'Home', component: Home, meta: { title: '欢迎来到慕课乐高' } },
+      { path: '', name: 'Home', component: Home, meta: { title: '欢迎来到海报大师' } },
       { path: 'mywork', name: 'MyWork', component: MyWork, meta: { requiredLogin: true, title: '我的设计列表' } },
       { path: '/template/:id', name: 'TemplateDetail', component: TemplateDetail, meta: { title: '模版详情' } },
       { path: 'setting', name: 'Setting', component: Setting, meta: { requiredLogin: true, title: '我的信息' } }
@@ -29,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
-    meta: { redirectAlreadyLogin: true, title: '登录到慕课乐高' }
+    meta: { redirectAlreadyLogin: true, title: '登录到海报大师' }
   }
 ]
 const router = createRouter({
