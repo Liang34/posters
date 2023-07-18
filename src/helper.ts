@@ -3,6 +3,7 @@ import axios from 'axios'
 import html2canvas from 'html2canvas'
 import { saveAs } from 'file-saver'
 import { map } from 'lodash-es'
+import { uploadImgs } from './service/utils'
 interface CheckCondition {
   format?: string[];
   size?: number;
@@ -17,7 +18,7 @@ export interface UploadImgProps {
   errno: number;
   file: File;
 }
-export function beforeUploadCheck (file: File, condition: CheckCondition) {
+export function beforeUploadCheck(file: File, condition: CheckCondition) {
   const { format, size } = condition
   const isValidFormat = format ? format.includes(file.type) : true
   const isValidSize = size ? (file.size / 1024 / 1024 < size) : true
@@ -45,7 +46,7 @@ export const commonUploadCheck = (file: File) => {
   return passed
 }
 
-export function clickInsideElement (e: Event, className: string) {
+export function clickInsideElement(e: Event, className: string) {
   let el = e.target as HTMLElement
   if (el.classList.contains(className)) {
     return el
@@ -77,39 +78,34 @@ export const imageDimensions = (file: File) => {
   })
 }
 
-export function isMobile (mobile: string) {
+export function isMobile(mobile: string) {
   return /^1[3-9]\d{9}$/.test(mobile)
 }
-
+// 生成图片
 export const takeScreenshotAndUpload = (id: string) => {
   const el = document.getElementById(id) as HTMLElement
   return html2canvas(el,
     { allowTaint: false, useCORS: true, width: 375 }).then(canvas => {
-    return new Promise<UploadImgProps>((resolve, reject) => {
-      canvas.toBlob((data) => {
-        if (data) {
-          const newFile = new File([data], 'screenshot.png')
-          const formData = new FormData()
-          formData.append('file', newFile)
-          axios.post('/utils/upload-img', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            },
-            timeout: 5000
-          }).then(data => {
-            resolve(data.data)
-          }).catch(err => {
-            reject(err)
-          })
-        } else {
-          reject(new Error('blob data error'))
-        }
-      }, 'image/png')
+      return new Promise<UploadImgProps>((resolve, reject) => {
+        canvas.toBlob((data) => {
+          if (data) {
+            const newFile = new File([data], 'screenshot.png')
+            const formData = new FormData()
+            formData.append('file', newFile)
+            uploadImgs(formData).then(data => {
+              resolve(data)
+            }).catch(err => {
+              reject(err)
+            })
+          } else {
+            reject(new Error('blob data error'))
+          }
+        }, 'image/png')
+      })
     })
-  })
 }
 
-export const objToQueryString = (queryObj: { ['string']: any}) => {
+export const objToQueryString = (queryObj: { ['string']: any }) => {
   return map(queryObj, (value: any, key: string) => `${key}=${value}`).join('&')
 }
 
@@ -134,7 +130,7 @@ export const getDaysArray = (start: Date, end: Date) => {
   return arr
 }
 
-export const objToArr = <T>(obj: {[key: string]: T}) => {
+export const objToArr = <T>(obj: { [key: string]: T }) => {
   return Object.keys(obj).map(key => obj[key])
 }
 
