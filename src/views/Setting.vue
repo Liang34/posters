@@ -86,7 +86,7 @@ export default defineComponent({
   name: 'Setting',
   components: {
     UserOutlined,
-    // StyledUploader
+    StyledUploader
   },
   setup () {
     const store = useStore<GlobalDataProps>()

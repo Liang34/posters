@@ -29,7 +29,7 @@
         <a-card hoverable @mouseenter="() => showBarcode(item.id, item.barcodeUrl)">
           <template v-slot:cover>
             <img :src="item.coverImg"  v-if="item.coverImg" />
-            <img src="http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png"  v-else />
+            <img src="http://poster-master.oss-cn-guangzhou.aliyuncs.com/upload-files/screenshot-819624.png"  v-else />
             <div class="hover-item">
               <div :id="`barcode-${item.id}`" class="barcode-container" v-if="item.status === '2'">
               </div>
@@ -51,9 +51,6 @@
                   </a-menu-item>
                   <a-menu-item v-if="item.coverImg">
                     <a href="javascript:;"  @click.prevent="saveImage(item.coverImg)"><DownloadOutlined /> 下载图片</a>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a href="javascript:;"  @click.prevent="sendClicked(item.id)"><GiftOutlined /> 转赠</a>
                   </a-menu-item>
 
                 </a-menu>
@@ -96,7 +93,6 @@ export default defineComponent({
     EllipsisOutlined,
     CopyOutlined,
     DeleteOutlined,
-    GiftOutlined,
     UserOutlined,
     DownloadOutlined
   },

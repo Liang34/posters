@@ -7,11 +7,6 @@ module.exports = {
     config.resolve.alias = {
       "@": path.resolve(__dirname, "src"),
     };
-    // config.plugins.push(
-    //   new BundleAnalyzerPlugin({
-    //     analyzerMode: "static",
-    //   })
-    // );
     // 为啥不生效？？？？？？
     config.optimization.splitChunks = {
       maxInitialRequests: 300 * 1024,
@@ -32,6 +27,20 @@ module.exports = {
         },
       },
     };
+    if (isProduction) {
+      config.plugins.push(
+        new CompressionWebpackPlugin({
+          algorithm:'gzip',
+          test: /\.js$|\.html$|\.json$|\.css/,
+          threshold: 10240,
+        })
+      )
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+        })
+      );
+    }
   },
   devServer: {
     proxy: {
@@ -60,22 +69,6 @@ module.exports = {
       },
     },
   },
-  //   configureWebpack: config => {
-  //     config.plugins.push(
-  //       new webpack.IgnorePlugin({
-  //         resourceRegExp: /^\.\/locale$/,
-  //         contextRegExp: /moment$/,
-  //       })
-  //     )
-  //     if (isProduction) {
-  //       config.plugins.push(
-  //         new CompressionWebpackPlugin({
-  //           algorithm:'gzip',
-  //           test: /\.js$|\.html$|\.json$|\.css/,
-  //           threshold: 10240,
-  //         })
-  //       )
-  //     }
   // 修改title，利于SEO
     chainWebpack: config => {
       config.plugin('html').tap(args => {

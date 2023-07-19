@@ -77,7 +77,7 @@ export default defineComponent({
 }
 .home-layout {
   position: relative;
-  top: -70px;
+  /* top: -70px; */
 }
 .editor-spinner {
   position: fixed;

@@ -88,13 +88,13 @@ export const takeScreenshotAndUpload = (id: string) => {
   return html2canvas(el,
     { allowTaint: false, useCORS: true, width: 375 }).then(canvas => {
       return new Promise<UploadImgProps>((resolve, reject) => {
-        canvas.toBlob((data) => {
-          if (data) {
-            const newFile = new File([data], 'screenshot.png')
+        canvas.toBlob((dataWarp) => {
+          if (dataWarp) {
+            const newFile = new File([dataWarp], 'screenshot.png')
             const formData = new FormData()
             formData.append('file', newFile)
             uploadImgs(formData).then(data => {
-              resolve(data)
+              resolve({...data, file: newFile})
             }).catch(err => {
               reject(err)
             })

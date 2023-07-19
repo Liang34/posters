@@ -1,6 +1,6 @@
 <template>
   <div class="homepage-container">
-    <div class="banner">
+    <!-- <div class="banner">
       <img class="banner-img" src="../assets/background.png" style="background-color: rgb(0, 0, 0);">
       <div class="banner-text">
         <h2 class="text-headline" style="color: rgb(255, 255, 255);">海量精彩设计 一键生成</h2>
@@ -11,8 +11,8 @@
           @search="onSearch"
         />
       </div>
-    </div>
-    <div class="welcome-container">
+    </div> -->
+    <!-- <div class="welcome-container">
       <div class="welcome-container-inner">
         <a-row>
           <a-col :span="8" class="feature-item">
@@ -32,9 +32,9 @@
           </a-col>
         </a-row>
       </div>
-    </div>
+    </div> -->
     <div class="content-container">
-      <a-row class="content-title" type="flex" align="middle">
+      <!-- <a-row class="content-title" type="flex" align="middle">
         <h2 v-if="currentSearchText">{{currentSearchText}}的结果</h2>
         <a-button
           shape="circle" size="small"
@@ -61,7 +61,7 @@
         <a-button type="primary" size="large" @click="loadMorePage" v-if="!isLastPage" :loading="loading">
           加载更多
         </a-button>
-      </a-row>
+      </a-row> -->
       <div class="my-works" v-if="isLogin && works.length > 0">
         <a-row type="flex" justify="space-between" align="middle" class="content-title" >
           <h2>我的作品</h2>
@@ -76,19 +76,17 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { defineComponent, onMounted, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { GlobalDataProps } from '../store/index'
 import TemplateList from '../components/TemplateList.vue'
 import useLoadMore from '../hooks/useLoadMore'
-import { Html5TwoTone, BuildTwoTone, BulbTwoTone } from '@ant-design/icons-vue'
 export default defineComponent({
   components: {
     TemplateList,
-    Html5TwoTone,
-    BuildTwoTone,
-    BulbTwoTone
+    // Html5TwoTone,
+    // BuildTwoTone,
+    // BulbTwoTone
   },
   setup () {
     const store = useStore<GlobalDataProps>()
@@ -132,6 +130,7 @@ export default defineComponent({
 </script>
 
 <style>
+
 .banner {
   display: flex;
   position: relative;

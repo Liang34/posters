@@ -58,6 +58,7 @@ const fontFamilyOptions = fontFamilyArr.map(font => {
     text: h('span', { style: { fontFamily: font.value } }, font.text)
   }
 })
+// props 对应componenet
 const mapPropsToComponents: MapTypes = {
   text: {
     ...defaultMap,

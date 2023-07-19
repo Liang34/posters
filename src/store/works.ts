@@ -2,8 +2,7 @@ import { Module } from 'vuex'
 import { GlobalDataProps, asyncAndCommit } from './index'
 import { PageData } from './editor'
 import { objToQueryString } from '../helper'
-import { baseStaticURL } from '../main'
-import { getTemplate } from '@/service/work'
+import { createWork, deleteWork, getPublicTemplate, getTemplate } from '@/service/work'
 export type WorkProp = Required<Omit<PageData, 'props' | 'setting'>> & {
   barcodeUrl?: string;
 }
@@ -88,8 +87,9 @@ const workModule: Module<WorksProp, GlobalDataProps> = {
       if (!queryObj.title) {
         delete queryObj.title
       }
-      const queryString = objToQueryString(queryObj)
-      return asyncAndCommit(`/templates?${queryString}`, 'fetchTemplates', commit, { method: 'get' }, { pageIndex: queryObj.pageIndex, searchText: queryObj.title })
+      getPublicTemplate(queryObj).then(data => {
+        commit('fetchTemplates', {data, extraData: { pageIndex: queryObj.pageIndex, searchText: queryObj.title }})
+      })
     },
     fetchTemplate ({ commit }, id) {
       return asyncAndCommit(`/templates/${id}`, 'fetchTemplate', commit)
@@ -103,15 +103,15 @@ const workModule: Module<WorksProp, GlobalDataProps> = {
       })
     },
     deleteWork ({ commit }, id) {
-      return asyncAndCommit(`/works/${id}`, 'deleteWork', commit, { method: 'delete' }, { id })
+      return deleteWork(id).then(() => {
+        commit('deleteWork', { extraData: {id} })
+      })
     },
     createWork ({ commit }, payload: WorkProp) {
-      return asyncAndCommit('/works', 'createWork', commit, { method: 'post', data: payload })
-    },
-    fetchStatic ({ commit }, queryObj) {
-      const newObj = { category: 'h5', action: 'pv', ...queryObj }
-      const queryString = objToQueryString(newObj)
-      return asyncAndCommit(`${baseStaticURL}/api/event?${queryString}`, 'fetchStatic', commit, { method: 'get' }, { name: queryObj.name, id: queryObj.label })
+      return createWork(payload).then(data => {
+        commit('createWork', data)
+        return data
+      })
     },
     recoverWork ({ commit }, id) {
       return asyncAndCommit(`/works/put-back/${id}`, 'recoverWork', commit, { method: 'post' }, { id })

@@ -77,7 +77,6 @@ export default defineComponent({
       commit(props.mutationName, finalData)
     }
     const finalProps = computed(() => {
-      debugger;
       console.log(toRefs(props.props))
       return map(props.props, (value, key) => {
         const {

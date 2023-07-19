@@ -1,3 +1,4 @@
+import store from '@/store';
 import axios from 'axios'
 
 const fetch = axios.create({
@@ -8,7 +9,7 @@ const fetch = axios.create({
 fetch.interceptors.request.use(
     async (config) => {
         const token = localStorage.getItem('token');
-        if(token) {
+        if (token) {
             config.headers.Authorization = `Bearer ${token}`
         }
         return config
@@ -20,14 +21,18 @@ fetch.interceptors.request.use(
 
 fetch.interceptors.response.use(
     (axiosRes) => {
-        if (axiosRes.data.result !== 0) {
-            return axiosRes.data
-        } else {
-            return axiosRes.data
+        store.commit('setLoading', { status: false })
+        if (axiosRes.data.errno !== 0) {
+            store.commit('setError', { status: true, message: axiosRes.data.message })
+            return Promise.reject(axiosRes.data)
         }
+        return axiosRes.data
     },
-    (axiosErr) => {
-        return axiosErr.response;
+    (e) => {
+        const error = e.response ? e.response.data : e.message
+        store.commit('setError', { status: true, message: error })
+        store.commit('setLoading', { status: false })
+        return e.response;
     }
 )
 

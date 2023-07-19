@@ -12,7 +12,6 @@ function useCreateDesign () {
       const payload = {
         title: '未命名作品',
         desc: '未命名作品',
-        coverImg: 'http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png'
       }
       store.dispatch('createWork', payload).then(({ data }) => {
         router.push(`/editor/${data.id}`)
