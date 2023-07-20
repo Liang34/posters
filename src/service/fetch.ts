@@ -2,9 +2,9 @@ import store from '@/store';
 import axios from 'axios'
 
 const fetch = axios.create({
-    withCredentials: true,
+    // withCredentials: true,
     timeout: 50000,
-    baseURL: '/api'
+    baseURL: 'http://124.71.170.85:3000/api'
 })
 fetch.interceptors.request.use(
     async (config) => {

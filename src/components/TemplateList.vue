@@ -35,12 +35,10 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-// import { UserOutlined } from '@ant-design/icons-vue'
 import { WorkProp } from '../store/works'
 export default defineComponent({
   name: 'template-list',
   components: {
-    // UserOutlined
   },
   props: {
     list: {

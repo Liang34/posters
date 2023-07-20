@@ -288,4 +288,8 @@ export default defineComponent({
   left: 50%;
   top: 50%;
 }
+.ant-tabs {
+  width: 400px;
+  
+}
 </style>

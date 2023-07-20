@@ -27,7 +27,13 @@
           </a-layout-content>
         </a-layout>
       </a-layout-content>
-      <a-layout-footer> © Liang版权所有 | 津TPC备 </a-layout-footer>
+      <a-layout-footer>
+        <a-space>
+          <div>© Liang版权所有</div>
+          <a style="color: #999;" target="_blank" href="https://github.com/Liang34/poster-backend">项目后端地址</a>
+          <a style="color: #999;" target="_blank" href="https://github.com/Liang34/posters.git">项目前端地址</a>
+        </a-space>
+      </a-layout-footer>
     </a-layout>
   </div>
 </template>

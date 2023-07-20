@@ -27,33 +27,31 @@ module.exports = {
         },
       },
     };
-    if (isProduction) {
-      config.plugins.push(
-        new CompressionWebpackPlugin({
-          algorithm:'gzip',
-          test: /\.js$|\.html$|\.json$|\.css/,
-          threshold: 10240,
-        })
-      )
-      config.plugins.push(
-        new BundleAnalyzerPlugin({
-          analyzerMode: "static",
-        })
-      );
-    }
+    // config.plugins.push(
+    //   new CompressionWebpackPlugin({
+    //     algorithm:'gzip',
+    //     test: /\.js$|\.html$|\.json$|\.css/,
+    //     threshold: 10240,
+    //   })
+    // )
+  //   config.plugins.push(
+  //     new BundleAnalyzerPlugin({
+  //       analyzerMode: "static",
+  //     })
+  //   );
   },
-  devServer: {
-    proxy: {
-      // 代理的
-      "/api": {
-        target: "http://localhost:3000", // 代理的基础路径
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": "/api",
-        },
-      },
-    },
-  },
+  // devServer: {
+  //   proxy: {
+  //     // 代理的
+  //     "/api": {
+  //       target: "http://localhost:3000", // 代理的基础路径
+  //       changeOrigin: true,
+  //       pathRewrite: {
+  //         "^/api": "/api",
+  //       },
+  //     },
+  //   },
+  // },
   // 生产环境要使用 OSS 地址
   // 其他环境都使用绝对路径
   //   publicPath: (isProduction && !isStaging) ? 'https://oss.imooc-lego.com/editor' : '/',

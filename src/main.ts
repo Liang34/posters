@@ -8,7 +8,7 @@ import 'cropperjs/dist/cropper.css'
 import App from './App.vue'
 import router from './router'
 import store, { ICustomAxiosConfig } from './store'
-
+import './common/styles/ant.css'
 
 const app = createApp(App)
 
